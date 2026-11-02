@@ -14,29 +14,33 @@
 <title>Kali-Kali Seru: Latihan Perkalian</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef5fb;--grid:#cfe0f0;--ink:#1d2b4f;--card:#fff;--muted:#5a678a;--ok:#1f9d55;--okbg:#dff5e8;--bad:#d6293e;--badbg:#fde4e7;--hl:#ffd84d;--line:#b9cde3;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141b2e;--grid:#1f2a45;--ink:#eaf0ff;--card:#1d2742;--muted:#9fb0d6;--ok:#4cd488;--okbg:#17382b;--bad:#ff6b7d;--badbg:#401a24;--hl:#e8c53a;--line:#33436b}}
-:root[data-theme="dark"]{--bg:#141b2e;--grid:#1f2a45;--ink:#eaf0ff;--card:#1d2742;--muted:#9fb0d6;--ok:#4cd488;--okbg:#17382b;--bad:#ff6b7d;--badbg:#401a24;--hl:#e8c53a;--line:#33436b}
+:root{
+  --bg:#eef5fb;--grid:#cfe0f0;--ink:#1d2b4f;--card:#fff;--muted:#5a678a;--ok:#1f9d55;--okbg:#dff5e8;--bad:#d6293e;--badbg:#fde4e7;--hl:#ffd84d;--line:#b9cde3;--accent:#7c5cff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141b2e;--grid:#1f2a45;--ink:#eaf0ff;--card:#1d2742;--muted:#9fb0d6;--ok:#4cd488;--okbg:#17382b;--bad:#ff6b7d;--badbg:#401a24;--hl:#e8c53a;--line:#33436b;--accent:#9f8cff}}
+:root[data-theme="dark"]{--bg:#141b2e;--grid:#1f2a45;--ink:#eaf0ff;--card:#1d2742;--muted:#9fb0d6;--ok:#4cd488;--okbg:#17382b;--bad:#ff6b7d;--badbg:#401a24;--hl:#e8c53a;--line:#33436b;--accent:#9f8cff}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;min-height:100vh;font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background-color:var(--bg);
-background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;overflow-x:hidden}
 main{max-width:560px;margin:0 auto;padding:20px 16px 40px}
 h1,h2,.big{font-family:'Baloo 2',system-ui,sans-serif;margin:0;line-height:1.1}
 h1{font-size:clamp(2.2rem,9vw,3.2rem);font-weight:800}
 h1 span{background:linear-gradient(transparent 55%,var(--hl) 55%);padding:0 .1em}
 .sub{color:var(--muted);margin:.5rem 0 1.4rem;font-size:1.05rem}
-.card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:18px;box-shadow:5px 5px 0 var(--ink);margin-bottom:18px}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:18px;box-shadow:5px 5px 0 var(--ink);margin-bottom:18px;position:relative;overflow:hidden}
 .card h2{font-size:1.25rem;margin-bottom:10px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip,.seg button{font:inherit;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:12px;min-width:46px;height:46px;padding:0 12px;cursor:pointer}
+.chip,.seg button{font:inherit;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:12px;min-width:46px;height:46px;padding:0 12px;cursor:pointer;transition:transform .1s ease, background .2s ease;}
+.chip:active,.seg button:active,.opt:active:not(:disabled),.go:active{transform:translate(2px,2px)}
 .chip[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .seg button{height:auto;padding:10px 6px;line-height:1.2}
 .seg small{display:block;font-weight:500;opacity:.8}
 button:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
 .go{width:100%;font-family:'Baloo 2';font-size:1.5rem;font-weight:800;border:2px solid var(--ink);background:var(--hl);color:#1d2b4f;border-radius:16px;padding:10px;cursor:pointer;box-shadow:5px 5px 0 var(--ink);transition:transform .08s ease,box-shadow .08s ease}
+.go.alt{background:var(--card);color:var(--ink)}
 .go:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
 .best{text-align:center;color:var(--muted);margin-top:14px;font-weight:700}
 .hud{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;font-weight:700}
@@ -62,17 +66,42 @@ button:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
 .weak{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .weak span{border:2px solid var(--bad);color:var(--bad);border-radius:10px;padding:4px 10px;font-weight:700;background:var(--badbg)}
 .row{display:flex;gap:10px}.row .go{font-size:1.2rem;box-shadow:4px 4px 0 var(--ink)}
-.alt{background:var(--card);color:var(--ink)}
 .hide{display:none!important}
+.field{display:flex;align-items:center;gap:10px;margin:12px 0 16px;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:var(--card)}
+.field input{flex:1;border:none;background:transparent;font:inherit;color:var(--ink);font-size:1rem;outline:none}
+.field label{font-weight:800;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.leaderboard{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.leaderboard li{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:2px solid var(--ink);border-radius:12px;background:rgba(255,255,255,.18)}
+.rank{font-weight:800;background:var(--hl);color:#1d2b4f;border-radius:8px;padding:4px 8px;min-width:32px;text-align:center}
+.name{font-weight:700;flex:1;margin:0 12px}
+.score-pill{font-weight:800;color:var(--ink)}
+.confetti-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+.confetti{position:absolute;top:-20px;width:10px;height:16px;border-radius:3px;opacity:.9;animation:fall 1.6s ease-in forwards}
+@keyframes fall{0%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}100%{transform:translate3d(var(--dx), 110vh, 0) rotate(540deg) scale(.7);opacity:0}}
+@keyframes floatBreathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.03)}}
+.pulse{animation:floatBreathe 1.4s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
 <main>
 
 <section id="home">
   <h1>Kali-Kali <span>Seru</span></h1>
   <p class="sub">Latih perkalian 1 sampai 10, lengkap dengan soal cerita. Satu ronde ada 10 soal.</p>
+
+  <div class="card">
+    <h2>Pemain</h2>
+    <div class="field">
+      <label for="playerName">Nama</label>
+      <input id="playerName" maxlength="18" placeholder="Masukkan namamu" value="Pemain">
+    </div>
+    <div class="card" style="margin:0;border-width:1px;box-shadow:none;">
+      <h2 style="margin-bottom:10px;">Leaderboard</h2>
+      <ul id="leaderboard" class="leaderboard"></ul>
+    </div>
+  </div>
 
   <div class="card">
     <h2>Tabel perkalian yang dilatih</h2>
@@ -99,7 +128,7 @@ button:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
     <div class="bar"><i id="prog"></i></div>
     <span class="pill" id="streak">Beruntun 0</span>
   </div>
-  <div class="card">
+  <div class="card pulse">
     <span class="tag" id="tag">Hitungan</span>
     <div id="qbox"></div>
     <div class="opts" id="opts"></div>
@@ -131,7 +160,12 @@ const $=id=>document.getElementById(id);
 const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
 
-// Template soal cerita: a = banyak kelompok, b = isi tiap kelompok
+const LEADERBOARD_KEY='kali-seru-leaderboard';
+const BEST_KEY='kali-seru-best';
+const S={tables:new Set(),mode:'mix',qs:[],i:0,score:0,streak:0,wrong:[],locked:false};
+let deferredPrompt = null;
+let audioCtx = null;
+
 const STORIES=[
   (a,b)=>`Ibu membeli ${a} kantong jeruk. Setiap kantong berisi ${b} buah jeruk. Berapa jumlah jeruk seluruhnya?`,
   (a,b)=>`Di kelas ada ${a} baris meja. Setiap baris terdiri dari ${b} meja. Berapa banyak meja di kelas itu?`,
@@ -147,11 +181,97 @@ const STORIES=[
   (a,b)=>`Pak Tani menanam ${a} baris jagung. Setiap baris ada ${b} batang jagung. Berapa batang jagung yang ia tanam?`
 ];
 
-const S={tables:new Set(),mode:'mix',qs:[],i:0,score:0,streak:0,wrong:[],locked:false};
-let bestKey='kali-seru-best';
-let deferredPrompt = null;
+function getLeaderBoard(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]');
+    return Array.isArray(raw) ? raw : [];
+  } catch {
+    return [];
+  }
+}
 
-// Beranda
+function saveLeaderboard(entry){
+  const data = getLeaderBoard();
+  data.push(entry);
+  data.sort((a,b)=>b.score-a.score || a.name.localeCompare(b.name));
+  const trimmed = data.slice(0,5);
+  localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(trimmed));
+  renderLeaderboard();
+}
+
+function renderLeaderboard(){
+  const list = $('leaderboard');
+  const rows = getLeaderBoard();
+  if (!rows.length) {
+    list.innerHTML = '<li><span class="name">Belum ada skor</span><span class="score-pill">0</span></li>';
+    return;
+  }
+  list.innerHTML = rows.map((row,index)=>`
+    <li>
+      <span class="rank">${index+1}</span>
+      <span class="name">${escapeHtml(row.name)}</span>
+      <span class="score-pill">${row.score}/10</span>
+    </li>
+  `).join('');
+}
+
+function escapeHtml(str=''){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+function ensureAudio(){
+  if (!audioCtx) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) audioCtx = new AudioCtx();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function playTone(freq, duration, type='sine', volume=0.06){
+  ensureAudio();
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.value = volume;
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+function playCorrect(){
+  playTone(740, 0.12, 'triangle', 0.08);
+  setTimeout(()=>playTone(930, 0.12, 'triangle', 0.07), 90);
+}
+
+function playWrong(){
+  playTone(180, 0.2, 'sawtooth', 0.06);
+}
+
+function burstConfetti(){
+  const layer = $('confettiLayer');
+  for (let i = 0; i < 28; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'confetti';
+    const colors = ['#ffd84d', '#7c5cff', '#1f9d55', '#ff6b7d', '#4cd488', '#e8c53a'];
+    dot.style.background = colors[i % colors.length];
+    dot.style.left = (Math.random() * 80 + 10) + 'vw';
+    dot.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
+    dot.style.animationDelay = (Math.random() * 0.15) + 's';
+    layer.appendChild(dot);
+    setTimeout(()=>dot.remove(), 1800);
+  }
+}
+
 const chips=$('chips');
 [...Array(10)].forEach((_,k)=>{const b=document.createElement('button');b.className='chip';b.textContent=k+1;b.setAttribute('aria-pressed','false');b.onclick=()=>{toggle(k+1)};chips.appendChild(b)});
 const all=document.createElement('button');all.className='chip';all.textContent='Semua';all.setAttribute('aria-pressed','true');chips.appendChild(all);
@@ -159,8 +279,7 @@ all.onclick=()=>{S.tables.clear();sync()};
 function toggle(n){S.tables.has(n)?S.tables.delete(n):S.tables.add(n);sync()}
 function sync(){[...chips.children].slice(0,10).forEach((c,k)=>c.setAttribute('aria-pressed',S.tables.has(k+1)));all.setAttribute('aria-pressed',S.tables.size===0)}
 $('modes').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.mode=b.dataset.m;[...$('modes').children].forEach(x=>x.setAttribute('aria-pressed',x===b))};
-function showBest(){let v=null;try{v=localStorage.getItem(bestKey)}catch(e){}$('best').textContent=v?`Skor terbaik: ${v}/10`:'Ayo cetak skor pertamamu!'}
-
+function showBest(){let v=null;try{v=localStorage.getItem(BEST_KEY)}catch(e){}$('best').textContent=v?`Skor terbaik: ${v}/10`:'Ayo cetak skor pertamamu!'}
 function show(id){['home','play','end'].forEach(s=>$(s).classList.toggle('hide',s!==id));window.scrollTo(0,0)}
 
 function build(){
@@ -171,7 +290,6 @@ function build(){
     const a=pool[R(0,pool.length-1)],b=R(1,10);
     const key=a+'x'+b;if(seen.has(key)&&guard<150)continue;seen.add(key);
     const story=S.mode==='story'||(S.mode==='mix'&&qs.length%2===1);
-    // acak urutan faktor agar tidak selalu sama
     const [x,y]=Math.random()<.5?[a,b]:[b,a];
     qs.push({a:x,b:y,story,t:STORIES[R(0,STORIES.length-1)]});
   }
@@ -204,12 +322,14 @@ function answer(btn,v,c){
   const fb=$('fb');
   if(v===c){
     S.score++;S.streak++;
+    playCorrect();
+    burstConfetti();
     fb.className='fb ok';
     fb.textContent=S.streak>=3?`Benar! ${S.streak} jawaban beruntun, hebat!`:'Benar! Pintar sekali.';
     $('streak').textContent=`Beruntun ${S.streak}`;
     setTimeout(advance,1000);
   }else{
-    btn.classList.add('bad');S.streak=0;
+    btn.classList.add('bad');S.streak=0;playWrong();
     S.wrong.push(`${q.a} × ${q.b}`);
     fb.className='fb bad';
     fb.textContent=`Belum tepat. ${q.a} × ${q.b} = ${c}. Coba ingat: ${q.a} dikali ${q.b} berarti ${q.b} kelompok yang berisi ${q.a}, atau sebaliknya.`;
@@ -231,10 +351,14 @@ function finish(){
   const u=[...new Set(S.wrong)];
   $('weakbox').classList.toggle('hide',!u.length);
   $('weak').innerHTML='';u.forEach(w=>{const e=document.createElement('span');e.textContent=w;$('weak').appendChild(e)});
-  try{const old=+localStorage.getItem(bestKey)||0;if(s>old)localStorage.setItem(bestKey,s)}catch(e){}
+  try{const old=+localStorage.getItem(BEST_KEY)||0;if(s>old)localStorage.setItem(BEST_KEY,s)}catch(e){}
+  const name = $('playerName').value.trim() || 'Pemain';
+  saveLeaderboard({name, score:s});
+  if (s >= 7) burstConfetti();
   show('end');
 }
 function start(){
+  ensureAudio();
   Object.assign(S,{qs:build(),i:0,score:0,streak:0,wrong:[]});
   show('play');render();
 }
@@ -260,6 +384,7 @@ window.addEventListener('appinstalled', ()=>{
 $('start').onclick=start;$('again').onclick=start;$('next').onclick=advance;
 $('menu').onclick=()=>{showBest();show('home')};
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+renderLeaderboard();
 showBest();
 </script>
 </body>
