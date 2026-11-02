@@ -8,6 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kali-Kali Seru">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Kali-Kali Seru: Latihan Perkalian</title>
@@ -35,7 +36,7 @@ h1 span{background:linear-gradient(transparent 55%,var(--hl) 55%);padding:0 .1em
 .seg button{height:auto;padding:10px 6px;line-height:1.2}
 .seg small{display:block;font-weight:500;opacity:.8}
 button:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
-.go{width:100%;font-family:'Baloo 2';font-size:1.5rem;font-weight:800;border:2px solid var(--ink);background:var(--hl);color:#1d2b4f;border-radius:16px;padding:10px;cursor:pointer;box-shadow:5px 5px 0 var(--ink)}
+.go{width:100%;font-family:'Baloo 2';font-size:1.5rem;font-weight:800;border:2px solid var(--ink);background:var(--hl);color:#1d2b4f;border-radius:16px;padding:10px;cursor:pointer;box-shadow:5px 5px 0 var(--ink);transition:transform .08s ease,box-shadow .08s ease}
 .go:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
 .best{text-align:center;color:var(--muted);margin-top:14px;font-weight:700}
 .hud{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;font-weight:700}
@@ -88,6 +89,7 @@ button:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
   </div>
 
   <button class="go" id="start">Mulai main</button>
+  <button class="go alt hide" id="installApp" type="button">Install aplikasi</button>
   <p class="best" id="best"></p>
 </section>
 
@@ -131,22 +133,23 @@ const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j]
 
 // Template soal cerita: a = banyak kelompok, b = isi tiap kelompok
 const STORIES=[
- (a,b)=>`Ibu membeli ${a} kantong jeruk. Setiap kantong berisi ${b} buah jeruk. Berapa jumlah jeruk seluruhnya?`,
- (a,b)=>`Di kelas ada ${a} baris meja. Setiap baris terdiri dari ${b} meja. Berapa banyak meja di kelas itu?`,
- (a,b)=>`Pak Budi punya ${a} kandang ayam. Tiap kandang berisi ${b} ekor ayam. Berapa ekor ayam Pak Budi seluruhnya?`,
- (a,b)=>`Harga satu buku tulis Rp${b}.000. Dinda membeli ${a} buku. Berapa ribu rupiah yang harus ia bayar?`,
- (a,b)=>`Setiap hari Rani membaca ${b} halaman cerita. Berapa halaman yang ia baca dalam ${a} hari?`,
- (a,b)=>`Ada ${a} perahu di pantai. Setiap perahu membawa ${b} nelayan. Berapa jumlah nelayan seluruhnya?`,
- (a,b)=>`Andi punya ${a} kotak kelereng. Tiap kotak berisi ${b} kelereng. Berapa kelereng Andi seluruhnya?`,
- (a,b)=>`Nenek membuat ${a} piring kue lapis. Setiap piring berisi ${b} potong. Berapa potong kue lapis yang nenek buat?`,
- (a,b)=>`Di kebun ada ${a} pohon rambutan. Setiap pohon menghasilkan ${b} ikat rambutan. Berapa ikat rambutan yang dipanen?`,
- (a,b)=>`Bus sekolah membawa ${a} rombongan. Tiap rombongan terdiri dari ${b} siswa. Berapa siswa yang ikut karyawisata?`,
- (a,b)=>`Satu minggu Tika menabung Rp${b}.000 per hari selama ${a} hari. Berapa ribu rupiah tabungannya?`,
- (a,b)=>`Pak Tani menanam ${a} baris jagung. Setiap baris ada ${b} batang jagung. Berapa batang jagung yang ia tanam?`
+  (a,b)=>`Ibu membeli ${a} kantong jeruk. Setiap kantong berisi ${b} buah jeruk. Berapa jumlah jeruk seluruhnya?`,
+  (a,b)=>`Di kelas ada ${a} baris meja. Setiap baris terdiri dari ${b} meja. Berapa banyak meja di kelas itu?`,
+  (a,b)=>`Pak Budi punya ${a} kandang ayam. Tiap kandang berisi ${b} ekor ayam. Berapa ekor ayam Pak Budi seluruhnya?`,
+  (a,b)=>`Harga satu buku tulis Rp${b}.000. Dinda membeli ${a} buku. Berapa ribu rupiah yang harus ia bayar?`,
+  (a,b)=>`Setiap hari Rani membaca ${b} halaman cerita. Berapa halaman yang ia baca dalam ${a} hari?`,
+  (a,b)=>`Ada ${a} perahu di pantai. Setiap perahu membawa ${b} nelayan. Berapa jumlah nelayan seluruhnya?`,
+  (a,b)=>`Andi punya ${a} kotak kelereng. Tiap kotak berisi ${b} kelereng. Berapa kelereng Andi seluruhnya?`,
+  (a,b)=>`Nenek membuat ${a} piring kue lapis. Setiap piring berisi ${b} potong. Berapa potong kue lapis yang nenek buat?`,
+  (a,b)=>`Di kebun ada ${a} pohon rambutan. Setiap pohon menghasilkan ${b} ikat rambutan. Berapa ikat rambutan yang dipanen?`,
+  (a,b)=>`Bus sekolah membawa ${a} rombongan. Tiap rombongan terdiri dari ${b} siswa. Berapa siswa yang ikut karyawisata?`,
+  (a,b)=>`Satu minggu Tika menabung Rp${b}.000 per hari selama ${a} hari. Berapa ribu rupiah tabungannya?`,
+  (a,b)=>`Pak Tani menanam ${a} baris jagung. Setiap baris ada ${b} batang jagung. Berapa batang jagung yang ia tanam?`
 ];
 
 const S={tables:new Set(),mode:'mix',qs:[],i:0,score:0,streak:0,wrong:[],locked:false};
 let bestKey='kali-seru-best';
+let deferredPrompt = null;
 
 // Beranda
 const chips=$('chips');
@@ -235,6 +238,25 @@ function start(){
   Object.assign(S,{qs:build(),i:0,score:0,streak:0,wrong:[]});
   show('play');render();
 }
+const installBtn=$('installApp');
+window.addEventListener('beforeinstallprompt',(event)=>{
+  event.preventDefault();
+  deferredPrompt = event;
+  installBtn.classList.remove('hide');
+});
+installBtn.addEventListener('click', async ()=>{
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    installBtn.classList.add('hide');
+  }
+  deferredPrompt = null;
+});
+window.addEventListener('appinstalled', ()=>{
+  installBtn.classList.add('hide');
+  deferredPrompt = null;
+});
 $('start').onclick=start;$('again').onclick=start;$('next').onclick=advance;
 $('menu').onclick=()=>{showBest();show('home')};
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
