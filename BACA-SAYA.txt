@@ -1,0 +1,7 @@
+CARA PASANG DI HP
+1. Unggah semua isi folder ini ke hosting HTTPS gratis (Netlify Drop, GitHub Pages, atau Cloudflare Pages).
+2. Buka alamatnya di HP.
+   - Android (Chrome): menu titik tiga > Instal aplikasi / Tambahkan ke layar utama.
+   - iPhone (Safari): tombol Bagikan > Tambah ke Layar Utama.
+3. Setelah terpasang, game bisa dibuka tanpa internet.
+Catatan: file harus dibuka lewat HTTPS, bukan langsung dari penyimpanan HP, agar bisa diinstal.
